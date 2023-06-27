@@ -9,8 +9,6 @@ const auth = require("../middleware/auth");
 const articlesRouter = require("./articles");
 const usersRouter = require("./users");
 
-// const notFoundRouter = require('./notFoundRoute');
-
 function validateEmail(string) {
   if (!validator.isEmail(string)) {
     throw new Error("Invalid Email");
@@ -44,7 +42,5 @@ router.use(auth);
 
 router.use("/articles", articlesRouter);
 router.use("/users", usersRouter);
-
-// router.use('/*', notFoundRouter);
 
 module.exports = router;
