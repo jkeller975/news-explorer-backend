@@ -4,9 +4,10 @@ const {
   createArticle,
   deleteArticle,
 } = require("../controllers/articles");
+const { validateCreateArticle } = require("../middleware/validator");
 
 articlesRouter.get("/", getArticles);
-articlesRouter.post("/", createArticle);
+articlesRouter.post("/", validateCreateArticle, createArticle);
 articlesRouter.delete("/:_id", deleteArticle);
 
 module.exports = articlesRouter;

@@ -4,6 +4,7 @@ const User = require("../models/user");
 const BadRequestError = require("../errors/bad-request-error");
 const UnauthorizedError = require("../errors/unauthorized-error");
 const ConflictError = require("../errors/conflict-error");
+const { STATUS_CODES, ERROR_MESSAGES } = require("../utils/constants");
 require("dotenv").config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -13,11 +14,11 @@ const getCurrentUser = (req, res, next) => {
   User.findById(userId)
 
     .then((user) => {
-      res.send({ data: user });
+      res.status(STATUS_CODES.ok).send({ data: user });
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return next(new BadRequestError("Invalid userId"));
+        return next(new BadRequestError(ERROR_MESSAGES.userBadRequest));
       }
       return next(err);
     });
@@ -29,7 +30,7 @@ const createUser = (req, res, next) => {
     .hash(password, 10)
     .then((hash) => User.create({ name, email, password: hash }))
     .then((user) => {
-      res.status(201).send({
+      res.status(STATUS_CODES.created).send({
         data: {
           name: user.name,
           email: user.email,
@@ -55,7 +56,7 @@ const createUser = (req, res, next) => {
         );
       }
       if (err.code === 11000) {
-        return next(new ConflictError("Conflict"));
+        return next(new ConflictError(ERROR_MESSAGES.signup));
       }
       return next(err);
     });
@@ -76,7 +77,7 @@ const login = (req, res, next) => {
       res.send({ data: user.toJSON(), token });
     })
     .catch(() => {
-      next(new UnauthorizedError("Incorrect email or password"));
+      next(new UnauthorizedError(ERROR_MESSAGES.unauthorized));
     });
 };
 

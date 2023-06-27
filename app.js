@@ -5,15 +5,17 @@ const helmet = require("helmet");
 const cors = require("cors");
 const router = require("./routes/index");
 const { requestLogger, errorLogger } = require("./middleware/logger");
-const { limiter } = require("./utils/constants");
+const { limiter, DB_ADDRESS } = require("./utils/constants");
+const { ERROR_MESSAGES } = require("./utils/constants");
+const errorHandler = require("./middleware/error-handler");
 const NotFoundError = require("./errors/not-found-error");
 
-const { PORT = 3000, DATABASE_ADDRESS } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
 mongoose.set("strictQuery", false); // Added due to DeprecationWarning being thrown
-mongoose.connect(DATABASE_ADDRESS, {
+mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -29,18 +31,14 @@ app.get("/crash-test", () => {
   }, 0);
 });
 app.use(router);
+app.use(errorLogger);
 app.use(errors());
 app.use((req, res, next) => {
-  next(new NotFoundError("Not Found"));
+  next(new NotFoundError(ERROR_MESSAGES.notFound));
 });
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({
-    message: statusCode === 500 ? "An error occurred on the server" : message,
-  });
-});
+app.use(errorHandler);
 app.use(limiter);
-app.use(errorLogger);
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`App listening at port ${PORT}`);
