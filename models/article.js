@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
+// const validator = require("validator");
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -10,11 +10,11 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  text: {
+  description: {
     type: String,
     required: true,
   },
-  date: {
+  publishedAt: {
     type: String,
     required: true,
   },
@@ -22,25 +22,25 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  link: {
+  url: {
     type: String,
     required: true,
-    validate: {
-      validator: (v) => validator.isURL(v),
-      message: "Please enter a valid URL",
-    },
+    // validate: {
+    //   validator: (v) => validator.isURL(v),
+    //   message: "Please enter a valid URL",
+    // },
   },
-  image: {
+  urlToImage: {
     type: String,
-    required: true,
-    validate: {
-      validator: (v) => validator.isURL(v),
-      message: "Please enter a valid URL for image",
-    },
+
+    // validate: {
+    //   validator: (v) => validator.isURL(v),
+    //   message: "Please enter a valid URL for image",
+    // },
   },
   owner: {
-    type: mongoose.SchemaType.Types.ObjectId,
-    ref: "user",
+    type: String,
+
     required: true,
   },
 });

@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const BadRequestError = require("../errors/bad-request error");
+const BadRequestError = require("../errors/bad-request-error");
 const UnauthorizedError = require("../errors/unauthorized-error");
 const ConflictError = require("../errors/conflict-error");
 require("dotenv").config();
@@ -9,9 +9,9 @@ require("dotenv").config();
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getCurrentUser = (req, res, next) => {
-  // const { _id: userId } = req.user;
-  // User.findById(userId)
-  User.find({})
+  const { _id: userId } = req.user;
+  User.findById(userId)
+    // User.find({})
 
     .then((user) => {
       res.send({ data: user });
