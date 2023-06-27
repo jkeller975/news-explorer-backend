@@ -8,7 +8,7 @@ const { requestLogger, errorLogger } = require("./middleware/logger");
 const { limiter } = require("./utils/constants");
 const NotFoundError = require("./errors/not-found-error");
 
-const { PORT = 3001, DATABASE_ADDRESS } = process.env;
+const { PORT = 3000, DATABASE_ADDRESS } = process.env;
 
 const app = express();
 
