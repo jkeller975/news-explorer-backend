@@ -16,11 +16,11 @@ const createArticle = (req, res, next) => {
   const {
     keyword,
     title,
-    description,
-    publishedAt,
+    text: description,
+    date: publishedAt,
     source,
-    url,
-    urlToImage,
+    link: url,
+    image: urlToImage,
     owner,
   } = req.body;
 

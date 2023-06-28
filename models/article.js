@@ -28,11 +28,6 @@ const articleSchema = new mongoose.Schema({
   urlToImage: {
     type: String,
   },
-  owner: {
-    type: String,
-
-    required: true,
-  },
 });
 
 module.exports = mongoose.model("article", articleSchema);
