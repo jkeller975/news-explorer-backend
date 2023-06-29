@@ -13,6 +13,7 @@ const getArticles = (req, res, next) => {
 };
 
 const createArticle = (req, res, next) => {
+  const owner = req.user._id;
   const {
     keyword,
     title,
@@ -21,7 +22,6 @@ const createArticle = (req, res, next) => {
     source,
     link: url,
     image: urlToImage,
-    owner,
   } = req.body;
 
   Article.create({
