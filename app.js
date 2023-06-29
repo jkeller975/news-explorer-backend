@@ -10,7 +10,7 @@ const { ERROR_MESSAGES } = require("./utils/constants");
 const errorHandler = require("./middleware/error-handler");
 const NotFoundError = require("./errors/not-found-error");
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
